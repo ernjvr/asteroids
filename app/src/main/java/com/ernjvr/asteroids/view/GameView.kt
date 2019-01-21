@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.ernjvr.asteroids.graphics.Shape
 import com.ernjvr.asteroids.model.AsteroidFactory
+import com.ernjvr.asteroids.valitation.GameValidator
 
 class GameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -30,7 +31,7 @@ class GameView @JvmOverloads constructor(
 
         asteroids.forEach {
             paint.color = it.color
-            canvas?.drawCircle(it.xx, it.yy, it.radius, paint)
+            canvas?.drawCircle(it.x, it.y, it.radius, paint)
             it.move(width, height)
         }
         invalidate()
@@ -54,6 +55,8 @@ class GameView @JvmOverloads constructor(
         println("$touchX - $radius = " + (touchX - radius))
         println("new touchX $touchX, touchY $touchY, width $width, height $height")
         customCanvas.drawColor(Color.WHITE)
+        val collided = GameValidator.isCollided(touchX, touchY, radius, asteroids)
+        println("isCollided $collided")
         when (shape) {
             Shape.RECTANGLE -> customCanvas.drawRect(getRect(touchX.toInt(), touchY.toInt()), paint)
             else -> customCanvas.drawCircle(touchX, touchY, radius, paint)
@@ -68,8 +71,8 @@ class GameView @JvmOverloads constructor(
         asteroids.forEachIndexed { index, asteroid ->
             val factor = index + 1
             asteroid.radius = radius
-            asteroid.xxx = factor * (radius / 3)
-            asteroid.yyy = factor * (radius / 3)
+            asteroid.velocityX = factor * (radius / 3)
+            asteroid.velocityY = factor * (radius / 3)
         }
         super.onSizeChanged(w, h, oldw, oldh)
     }

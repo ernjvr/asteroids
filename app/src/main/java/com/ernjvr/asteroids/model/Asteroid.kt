@@ -1,36 +1,37 @@
 package com.ernjvr.asteroids.model
 
 class Asteroid(
-    var color: Int = 0, var xx: Float = 0F, var yy: Float = 0F, var xxx: Float = 0F, var yyy: Float = 0F
+    var color: Int = 0, var x: Float = 0F, var y
+    : Float = 0F, var velocityX: Float = 0F, var velocityY: Float = 0F
     , var radius: Float = 20F
 ) {
 
     fun move(width: Int, height: Int) {
-        xx += xxx
-        yy += yyy
+        x += velocityX
+        y += velocityY
 
         // beyond right margin
-        if (xx > width - radius) {
-            val overshoot = xx - (width - radius)
-            xx -= overshoot * 2
-            xxx = -xxx
+        if (x > width - radius) {
+            val overshoot = x - (width - radius)
+            x -= overshoot * 2
+            velocityX = -velocityX
             // beyond left margin
-        } else if (xx < radius) {
-            val overshoot = radius - xx
-            xx += overshoot * 2
-            xxx = -xxx
+        } else if (x < radius) {
+            val overshoot = radius - x
+            x += overshoot * 2
+            velocityX = -velocityX
         }
 
         // beyond bottom margin
-        if (yy > height - radius) {
-            val overshoot = yy - (height - radius)
-            yy -= overshoot * 2
-            yyy = -yyy
+        if (y > height - radius) {
+            val overshoot = y - (height - radius)
+            y -= overshoot * 2
+            velocityY = -velocityY
             // beyond top margin
-        } else if (yy < radius) {
-            val overshoot = radius - yy
-            yy += overshoot * 2
-            yyy = -yyy
+        } else if (y < radius) {
+            val overshoot = radius - y
+            y += overshoot * 2
+            velocityY = -velocityY
         }
     }
 }

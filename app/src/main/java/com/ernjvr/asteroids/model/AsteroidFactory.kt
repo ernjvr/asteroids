@@ -12,12 +12,12 @@ class AsteroidFactory {
     val asteroids = listOf(Asteroid(), Asteroid(radius = 30F), Asteroid(radius = 40F))
 
     init {
-        asteroids.forEachIndexed { index, ball ->
-            ball.color = colors[index]
-            ball.xx = xs[index]
-            ball.yy = ys[index]
-            ball.xxx = xxs[index]
-            ball.yyy = yys[index]
+        asteroids.forEachIndexed { index, asteroid ->
+            asteroid.color = colors[index]
+            asteroid.x = xs[index]
+            asteroid.y = ys[index]
+            asteroid.velocityX = xxs[index]
+            asteroid.velocityY = yys[index]
         }
     }
 }
