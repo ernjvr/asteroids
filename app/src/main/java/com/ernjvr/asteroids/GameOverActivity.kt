@@ -12,7 +12,7 @@ class GameOverActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_over)
 
-        val tvFinalScore= findViewById<TextView>(R.id.tvFinalScore)
+        val tvFinalScore = findViewById<TextView>(R.id.tvFinalScore)
         tvFinalScore.text = String.format(Integer.toString(intent.getIntExtra("score", 0)))
 
         val startButton = findViewById<Button>(R.id.btnGameOverStart)

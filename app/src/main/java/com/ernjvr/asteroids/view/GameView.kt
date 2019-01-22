@@ -21,9 +21,8 @@ class GameView @JvmOverloads constructor(
     private val gameController: GameController
     private lateinit var customBitmap: Bitmap
     lateinit var customCanvas: Canvas
-    var paintColor = Color.BLACK
     var shape = Shape.CIRCLE
-    var radius = 30F
+    var radius = 0F
 
 
     init {
@@ -44,7 +43,7 @@ class GameView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        paint.color = paintColor
+        paint.color = Color.BLACK
         paint.style = Paint.Style.FILL
         customCanvas.drawColor(Color.LTGRAY)
         gameController.receiveTouch(event)
@@ -66,14 +65,16 @@ class GameView @JvmOverloads constructor(
     private fun scaleAsteroids() {
         asteroids.forEachIndexed { index, asteroid ->
             val factor = index + 1
+            val velocity = factor * (radius / VELOCITY_PERCENTAGE)
             asteroid.radius = radius
-            asteroid.velocityX = factor * (radius / 3)
-            asteroid.velocityY = factor * (radius / 3)
+            asteroid.velocityX = velocity
+            asteroid.velocityY = velocity
         }
     }
 
     companion object {
         val paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
         const val SCALE_PERCENTAGE = 3
+        const val VELOCITY_PERCENTAGE = 3
     }
 }
