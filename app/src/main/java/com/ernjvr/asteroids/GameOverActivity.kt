@@ -1,17 +1,21 @@
 package com.ernjvr.asteroids
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 
-class MainActivity : AppCompatActivity() {
+class GameOverActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_game_over)
 
-        val startButton = findViewById<Button>(R.id.btnStart)
+        val tvFinalScore= findViewById<TextView>(R.id.tvFinalScore)
+        tvFinalScore.text = String.format(Integer.toString(intent.getIntExtra("score", 0)))
+
+        val startButton = findViewById<Button>(R.id.btnGameOverStart)
 
         startButton.setOnClickListener {
             val intent = Intent(this, GameActivity::class.java)

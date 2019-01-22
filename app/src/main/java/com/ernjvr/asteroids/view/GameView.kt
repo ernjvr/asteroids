@@ -8,7 +8,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.ernjvr.asteroids.MainActivity
+import com.ernjvr.asteroids.GameActivity
 import com.ernjvr.asteroids.controller.GameController
 import com.ernjvr.asteroids.graphics.Shape
 import com.ernjvr.asteroids.model.AsteroidFactory
@@ -28,8 +28,8 @@ class GameView @JvmOverloads constructor(
 
     init {
         setBackgroundColor(Color.LTGRAY)
-        val mainActivity = (context as ActivityProvider).currentActivity() as MainActivity
-        gameController = GameController(mainActivity, this)
+        val activity = (context as ActivityProvider).currentActivity() as GameActivity
+        gameController = GameController(activity, this)
     }
 
     override fun onDraw(canvas: Canvas?) {
