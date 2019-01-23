@@ -8,6 +8,7 @@ import com.ernjvr.asteroids.GameActivity
 import com.ernjvr.asteroids.GameOverActivity
 import com.ernjvr.asteroids.R
 import com.ernjvr.asteroids.graphics.Shape
+import com.ernjvr.asteroids.sound.AudioPlayer
 import com.ernjvr.asteroids.valitation.GameValidator
 import com.ernjvr.asteroids.view.GameView
 
@@ -15,14 +16,20 @@ class GameController(private val activity: GameActivity, private val view: GameV
 
     private var lives = 3
     private var score = 0
+    private var ambiencePlaying = 0
 
     override fun receiveTouch(event: MotionEvent?) {
+        if (ambiencePlaying == 0) {
+            activity.audioPlayer.playAudio(AudioPlayer.AMBIENCE, -1)
+            ambiencePlaying = 1
+        }
         val touchX = constrainTouchXToGameSurface(event?.x ?: 0F)
         val touchY = constrainTouchYToGameSurface(event?.y ?: 0F)
 
         if (GameValidator.isCollided(touchX, touchY, view.radius, view.asteroids)) {
             lives--
             displayLives()
+            activity.audioPlayer.playAudio(AudioPlayer.EXPLOSION)
             when (view.shape) {
                 Shape.RECTANGLE -> view.shape = Shape.CIRCLE
                 else -> {
