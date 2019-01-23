@@ -11,6 +11,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
 import com.ernjvr.asteroids.GameActivity
+import com.ernjvr.asteroids.R
 import com.ernjvr.asteroids.controller.GameController
 import com.ernjvr.asteroids.engine.GameThread
 import com.ernjvr.asteroids.graphics.Shape
@@ -27,13 +28,14 @@ class GameView @JvmOverloads constructor(
     private lateinit var customBitmap: Bitmap
     var shape = Shape.CIRCLE
     var radius = 0F
-    val spaceShip = SpaceShip(0F, 0F, 0F, Color.BLACK)
+    val spaceShip = SpaceShip(0F, 0F, 0F, Color.WHITE)
 
 
     init {
         holder.addCallback(this)
         gameThread = GameThread(holder, this)
-        setBackgroundColor(Color.LTGRAY)
+//        setBackgroundColor(Color.LTGRAY)
+        setBackgroundResource(R.drawable.space2)
         val activity = (context as ActivityProvider).currentActivity() as GameActivity
         gameController = GameController(activity, this)
         focusable = View.FOCUSABLE
