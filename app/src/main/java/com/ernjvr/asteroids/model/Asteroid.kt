@@ -15,6 +15,7 @@ class Asteroid(
             val overshoot = x - (width - radius)
             x -= overshoot * 2
             velocityX = -velocityX
+
             // beyond left margin
         } else if (x < radius) {
             val overshoot = radius - x
@@ -27,6 +28,7 @@ class Asteroid(
             val overshoot = y - (height - radius)
             y -= overshoot * 2
             velocityY = -velocityY
+
             // beyond top margin
         } else if (y < radius) {
             val overshoot = radius - y

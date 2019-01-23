@@ -13,13 +13,15 @@ class GameOverActivity : AppCompatActivity() {
         setContentView(R.layout.activity_game_over)
 
         val tvFinalScore = findViewById<TextView>(R.id.tvFinalScore)
-        tvFinalScore.text = String.format(Integer.toString(intent.getIntExtra("score", 0)))
+        tvFinalScore.text = String.format(Integer.toString(intent.getIntExtra(getString(R.string.score), 0)))
 
         val startButton = findViewById<Button>(R.id.btnGameOverStart)
 
         startButton.setOnClickListener {
             val intent = Intent(this, GameActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
+            finish()
         }
     }
 }

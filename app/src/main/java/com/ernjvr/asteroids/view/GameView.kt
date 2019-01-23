@@ -7,32 +7,44 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.SurfaceHolder
+import android.view.SurfaceView
 import android.view.View
 import com.ernjvr.asteroids.GameActivity
 import com.ernjvr.asteroids.controller.GameController
+import com.ernjvr.asteroids.engine.GameThread
 import com.ernjvr.asteroids.graphics.Shape
 import com.ernjvr.asteroids.model.AsteroidFactory
+import com.ernjvr.asteroids.model.SpaceShip
 
 class GameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+) : SurfaceView(context, attrs, defStyleAttr), SurfaceHolder.Callback {
 
     val asteroids = AsteroidFactory().asteroids
     private val gameController: GameController
+    private val gameThread: GameThread
     private lateinit var customBitmap: Bitmap
-    lateinit var customCanvas: Canvas
     var shape = Shape.CIRCLE
     var radius = 0F
+    val spaceShip = SpaceShip(0F, 0F, 0F, Color.BLACK)
 
 
     init {
+        holder.addCallback(this)
+        gameThread = GameThread(holder, this)
         setBackgroundColor(Color.LTGRAY)
         val activity = (context as ActivityProvider).currentActivity() as GameActivity
         gameController = GameController(activity, this)
+        focusable = View.FOCUSABLE
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun draw(canvas: Canvas?) {
+        super.draw(canvas)
         canvas?.drawBitmap(customBitmap, 0F, 0F, paint)
+
+        paint.color = spaceShip.color
+        canvas?.drawCircle(spaceShip.x, spaceShip.y, spaceShip.radius, paint)
 
         asteroids.forEach {
             paint.color = it.color
@@ -45,14 +57,12 @@ class GameView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         paint.color = Color.BLACK
         paint.style = Paint.Style.FILL
-        customCanvas.drawColor(Color.LTGRAY)
         gameController.receiveTouch(event)
         return true
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         customBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        customCanvas = Canvas(customBitmap)
         scaleRadius()
         scaleAsteroids()
         super.onSizeChanged(w, h, oldw, oldh)
@@ -69,6 +79,23 @@ class GameView @JvmOverloads constructor(
             asteroid.radius = radius
             asteroid.velocityX = velocity
             asteroid.velocityY = velocity
+        }
+    }
+
+    override fun surfaceCreated(holder: SurfaceHolder?) {
+        gameThread.running = true
+        gameThread.start()
+    }
+
+    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+        // surface changed
+    }
+
+    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+        while (true) {
+            gameThread.running = false
+            gameThread.join()
+            break
         }
     }
 

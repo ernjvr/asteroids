@@ -4,4 +4,5 @@
     <string name="score_start">0</string>
     <string name="lives">LIVES</string>
     <string name="lives_start">3</string>
+    <string name="crash">Crash!</string>
 </resources>
