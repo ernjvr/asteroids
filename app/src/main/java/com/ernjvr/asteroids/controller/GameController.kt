@@ -11,22 +11,13 @@ import com.ernjvr.asteroids.graphics.Shape
 import com.ernjvr.asteroids.sound.AudioPlayer
 import com.ernjvr.asteroids.valitation.GameValidator
 import com.ernjvr.asteroids.view.GameView
-import kotlin.random.Random
 
 class GameController(private val activity: GameActivity, private val view: GameView) : ViewController {
 
     private var lives = 3
     private var score = 0
     private var ambiencePlaying = 0
-    val backgroundMap = mapOf(
-        Pair(1, R.drawable.space3),
-        Pair(2, R.drawable.space4),
-        Pair(3, R.drawable.space5),
-        Pair(4, R.drawable.space6),
-        Pair(5, R.drawable.space7),
-        Pair(6, R.drawable.space8),
-        Pair(7, R.drawable.space9)
-    )
+
 
     override fun receiveTouch(event: MotionEvent?) {
         if (ambiencePlaying == 0) {
@@ -39,7 +30,7 @@ class GameController(private val activity: GameActivity, private val view: GameV
         if (GameValidator.isCollided(touchX, touchY, view.radius, view.asteroids)) {
             lives--
             displayLives()
-            activity.audioPlayer.playAudio(AudioPlayer.EXPLOSION)
+            activity.audioPlayer.playAudio(AudioPlayer.EXPLOSION, 0, 2)
             when (view.shape) {
                 Shape.RECTANGLE -> view.shape = Shape.CIRCLE
                 else -> {
@@ -51,8 +42,9 @@ class GameController(private val activity: GameActivity, private val view: GameV
 
             if (lives == 0) {
                 handleGameOver()
+            } else {
+                view.setRandomBackgroundImage()
             }
-            setBackground()
         } else {
             score++
             displayScore()
@@ -61,10 +53,6 @@ class GameController(private val activity: GameActivity, private val view: GameV
                 else -> updateSpaceShip(touchX, touchY, view.radius)
             }
         }
-    }
-
-    fun setBackground() {
-        view.setBackgroundResource(backgroundMap.getValue(Random.nextInt(1,7)))
     }
 
     private fun updateSpaceShip(x: Float, y: Float, radius: Float) {

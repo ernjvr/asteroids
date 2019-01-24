@@ -11,12 +11,13 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
 import com.ernjvr.asteroids.GameActivity
-import com.ernjvr.asteroids.R
 import com.ernjvr.asteroids.controller.GameController
 import com.ernjvr.asteroids.engine.GameThread
 import com.ernjvr.asteroids.graphics.Shape
+import com.ernjvr.asteroids.image.ImageFactory
 import com.ernjvr.asteroids.model.AsteroidFactory
 import com.ernjvr.asteroids.model.SpaceShip
+import kotlin.random.Random
 
 class GameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -30,12 +31,10 @@ class GameView @JvmOverloads constructor(
     var radius = 0F
     val spaceShip = SpaceShip(0F, 0F, 0F, Color.WHITE)
 
-
     init {
         holder.addCallback(this)
         gameThread = GameThread(holder, this)
-//        setBackgroundColor(Color.LTGRAY)
-        setBackgroundResource(R.drawable.space2)
+        setRandomBackgroundImage()
         val activity = (context as ActivityProvider).currentActivity() as GameActivity
         gameController = GameController(activity, this)
         focusable = View.FOCUSABLE
@@ -82,6 +81,11 @@ class GameView @JvmOverloads constructor(
             asteroid.velocityX = velocity
             asteroid.velocityY = velocity
         }
+    }
+
+    fun setRandomBackgroundImage() {
+        setBackgroundResource(
+            ImageFactory.backgroundImageMap.getValue(Random.nextInt(1, ImageFactory.backgroundImageMap.size)))
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {

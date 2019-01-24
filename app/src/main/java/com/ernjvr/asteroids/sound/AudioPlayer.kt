@@ -16,12 +16,12 @@ class AudioPlayer(activity: AppCompatActivity) {
         soundPool = SoundPool.Builder().setMaxStreams(2).setAudioAttributes(attributeBuilder.build()).build()
         audioMap = mapOf(
             Pair(AMBIENCE, soundPool.load(activity, R.raw.ambience, 1)),
-            Pair(EXPLOSION, soundPool.load(activity, R.raw.explosion, 1))
+            Pair(EXPLOSION, soundPool.load(activity, R.raw.explosion, 2))
         )
     }
 
-    fun playAudio(audioId: Int, loop: Int = 0) {
-        soundPool.play(audioMap.getValue(audioId), 1F, 1F, 1, loop, 1F)
+    fun playAudio(audioId: Int, loop: Int = 0, priority: Int = 1) {
+        soundPool.play(audioMap.getValue(audioId), 1F, 1F, priority, loop, 1F)
     }
 
     companion object {
