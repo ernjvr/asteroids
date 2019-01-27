@@ -1,7 +1,6 @@
 package com.ernjvr.asteroids.view
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -13,23 +12,20 @@ import android.view.View
 import com.ernjvr.asteroids.GameActivity
 import com.ernjvr.asteroids.controller.GameController
 import com.ernjvr.asteroids.engine.GameThread
-import com.ernjvr.asteroids.graphics.Shape
 import com.ernjvr.asteroids.image.ImageFactory
+import com.ernjvr.asteroids.model.Asteroid
 import com.ernjvr.asteroids.model.AsteroidFactory
 import com.ernjvr.asteroids.model.SpaceShip
 import kotlin.random.Random
 
-class GameView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : SurfaceView(context, attrs, defStyleAttr), SurfaceHolder.Callback {
 
     val asteroids = AsteroidFactory().asteroids
     private val gameController: GameController
     private val gameThread: GameThread
-    private lateinit var customBitmap: Bitmap
-    var shape = Shape.CIRCLE
     var radius = 0F
-    val spaceShip = SpaceShip(0F, 0F, 0F, Color.WHITE)
+    private val spaceShip = SpaceShip(0F, 0F, 0F, Color.WHITE)
 
     init {
         holder.addCallback(this)
@@ -42,7 +38,6 @@ class GameView @JvmOverloads constructor(
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
-        canvas?.drawBitmap(customBitmap, 0F, 0F, paint)
 
         paint.color = spaceShip.color
         canvas?.drawCircle(spaceShip.x, spaceShip.y, spaceShip.radius, paint)
@@ -56,14 +51,11 @@ class GameView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        paint.color = Color.BLACK
-        paint.style = Paint.Style.FILL
         gameController.receiveTouch(event)
         return true
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        customBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         scaleRadius()
         scaleAsteroids()
         super.onSizeChanged(w, h, oldw, oldh)
@@ -75,17 +67,33 @@ class GameView @JvmOverloads constructor(
 
     private fun scaleAsteroids() {
         asteroids.forEachIndexed { index, asteroid ->
-            val factor = index + 1
-            val velocity = factor * (radius / VELOCITY_PERCENTAGE)
-            asteroid.radius = radius
-            asteroid.velocityX = velocity
-            asteroid.velocityY = velocity
+            scaleAsteroid(asteroid, index + 1)
         }
+    }
+
+    private fun scaleAsteroid(asteroid: Asteroid, factor: Int) {
+        val velocity = factor * (radius / VELOCITY_PERCENTAGE)
+        asteroid.radius = radius
+        asteroid.velocityX = velocity
+        asteroid.velocityY = velocity
+    }
+
+    fun addAsteroid() {
+        val asteroid = Asteroid(Color.RED, 0F, 0F, 5F, 5F)
+        scaleAsteroid(asteroid, 1)
+        asteroids.add(asteroid)
+    }
+
+    fun updateSpaceShip(x: Float, y: Float, radius: Float) {
+        spaceShip.x = x
+        spaceShip.y = y
+        spaceShip.radius = radius
     }
 
     fun setRandomBackgroundImage() {
         setBackgroundResource(
-            ImageFactory.backgroundImageMap.getValue(Random.nextInt(1, ImageFactory.backgroundImageMap.size)))
+            ImageFactory.backgroundImageMap.getValue(Random.nextInt(1, ImageFactory.backgroundImageMap.size))
+        )
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
@@ -98,11 +106,7 @@ class GameView @JvmOverloads constructor(
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
-        while (true) {
-            gameThread.running = false
-            gameThread.join()
-            break
-        }
+        gameThread.running = false
     }
 
     companion object {

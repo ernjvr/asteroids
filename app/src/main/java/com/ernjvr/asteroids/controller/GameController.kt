@@ -7,7 +7,6 @@ import android.widget.Toast
 import com.ernjvr.asteroids.GameActivity
 import com.ernjvr.asteroids.GameOverActivity
 import com.ernjvr.asteroids.R
-import com.ernjvr.asteroids.graphics.Shape
 import com.ernjvr.asteroids.sound.AudioPlayer
 import com.ernjvr.asteroids.valitation.GameValidator
 import com.ernjvr.asteroids.view.GameView
@@ -17,48 +16,50 @@ class GameController(private val activity: GameActivity, private val view: GameV
     private var lives = 3
     private var score = 0
     private var ambiencePlaying = 0
-
+    private val audioPlayer = AudioPlayer(activity)
+    private val gameValidator = GameValidator(view.asteroids)
 
     override fun receiveTouch(event: MotionEvent?) {
-        if (ambiencePlaying == 0) {
-            activity.audioPlayer.playAudio(AudioPlayer.AMBIENCE, -1)
-            ambiencePlaying = 1
-        }
+        handleAmbience()
         val touchX = constrainTouchXToGameSurface(event?.x ?: 0F)
         val touchY = constrainTouchYToGameSurface(event?.y ?: 0F)
 
-        if (GameValidator.isCollided(touchX, touchY, view.radius, view.asteroids)) {
-            lives--
-            displayLives()
-            activity.audioPlayer.playAudio(AudioPlayer.EXPLOSION, 0, 2)
-            when (view.shape) {
-                Shape.RECTANGLE -> view.shape = Shape.CIRCLE
-                else -> {
-                    updateSpaceShip(touchX, touchY, view.radius * 4)
-                    Thread.sleep(50)
-                }
-            }
-            Toast.makeText(activity, activity.getString(R.string.crash), Toast.LENGTH_SHORT).show()
-
-            if (lives == 0) {
-                handleGameOver()
-            } else {
-                view.setRandomBackgroundImage()
-            }
+        if (gameValidator.isCollided(touchX, touchY, view.radius)) {
+            handleCollision(touchX, touchY)
         } else {
-            score++
-            displayScore()
-            when (view.shape) {
-                Shape.RECTANGLE -> view.shape = Shape.CIRCLE
-                else -> updateSpaceShip(touchX, touchY, view.radius)
-            }
+            handleSuccessfulMove(touchX, touchY)
         }
     }
 
-    private fun updateSpaceShip(x: Float, y: Float, radius: Float) {
-        view.spaceShip.x = x
-        view.spaceShip.y = y
-        view.spaceShip.radius = radius
+    private fun handleAmbience() {
+        if (ambiencePlaying == 0) {
+            audioPlayer.playAudio(AudioPlayer.AMBIENCE, -1)
+            ambiencePlaying = 1
+        }
+    }
+
+    private fun handleCollision(touchX: Float, touchY: Float) {
+        lives--
+        displayLives()
+        audioPlayer.playAudio(AudioPlayer.EXPLOSION, 0, 2)
+        view.updateSpaceShip(touchX, touchY, view.radius * 4)
+        Thread.sleep(50)
+        Toast.makeText(activity, activity.getString(R.string.crash), Toast.LENGTH_SHORT).show()
+
+        if (lives == 0) {
+            handleGameOver()
+        } else {
+            view.setRandomBackgroundImage()
+        }
+    }
+
+    private fun handleSuccessfulMove(touchX: Float, touchY: Float) {
+        score++
+        displayScore()
+        view.updateSpaceShip(touchX, touchY, view.radius)
+        if (score % 500 == 0) {
+            view.addAsteroid()
+        }
     }
 
     private fun handleGameOver() {

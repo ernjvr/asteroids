@@ -11,16 +11,17 @@
             android:id="@+id/tvFinalScoreLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:text="@string/score"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:textStyle="bold" android:textSize="24sp" android:layout_marginTop="8dp"
-            android:layout_marginLeft="28dp" android:textColor="@android:color/holo_orange_light"/>
+            android:layout_marginStart="28dp" android:textColor="@android:color/holo_orange_light"/>
     <TextView
             android:text="@string/zero"
-            android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:id="@+id/tvFinalScore" app:layout_constraintStart_toEndOf="@+id/tvFinalScoreLabel"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent" android:textSize="24sp"
@@ -29,6 +30,7 @@
             android:text="@string/lives"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:id="@+id/tvFinalLivesLabel" android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
@@ -36,9 +38,9 @@
             app:layout_constraintEnd_toStartOf="@+id/tvFinalLives"/>
     <TextView
             android:text="@string/zero"
-            android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:id="@+id/tvFinalLives" android:textSize="24sp"
             android:textStyle="bold" android:layout_marginEnd="28dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
@@ -47,6 +49,7 @@
             android:id="@+id/tvGameOverLabel"
             android:layout_width="0dp"
             android:layout_height="32dp"
+            android:autoSizeTextType="uniform"
             android:text="@string/game_over"
             android:textStyle="bold" android:textSize="24sp"
             android:textColor="@android:color/holo_red_dark"
@@ -54,14 +57,15 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
             android:textAlignment="center"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/btnGameOverStart" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.658"/>
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.733"/>
     <Button
             android:text="@string/play_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:id="@+id/btnGameOverStart" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
@@ -71,11 +75,11 @@
             android:text="@string/new_high_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:id="@+id/tvHighScore" android:textAlignment="center" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@android:color/holo_orange_dark" android:textSize="24sp" android:visibility="invisible"
+            android:textColor="@android:color/holo_orange_dark" android:textSize="24sp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/tvGameOverLabel"
-            app:layout_constraintHorizontal_bias="0.497" app:layout_constraintVertical_bias="0.625"/>
+            app:layout_constraintHorizontal_bias="0.497" android:visibility="invisible"/>
 </android.support.constraint.ConstraintLayout>

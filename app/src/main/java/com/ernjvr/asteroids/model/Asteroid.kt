@@ -1,10 +1,7 @@
 package com.ernjvr.asteroids.model
 
-class Asteroid(
-    var color: Int = 0, var x: Float = 0F, var y
-    : Float = 0F, var velocityX: Float = 0F, var velocityY: Float = 0F
-    , var radius: Float = 20F
-) {
+class Asteroid(var color: Int = 0, var x: Float = 0F, var y: Float = 0F, var velocityX: Float = 0F,
+               var velocityY: Float = 0F, var radius: Float = 20F) {
 
     fun move(width: Int, height: Int) {
         x += velocityX

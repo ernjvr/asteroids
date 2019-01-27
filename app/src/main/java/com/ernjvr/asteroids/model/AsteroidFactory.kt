@@ -9,7 +9,7 @@ class AsteroidFactory {
     private val velocityXs = listOf(10F, 12F, 15F)
     private val velocityYs = listOf(10F, 12F, 15F)
     private val colors = listOf(Color.RED, Color.YELLOW, Color.GREEN)
-    val asteroids = listOf(Asteroid(), Asteroid(radius = 30F), Asteroid(radius = 40F))
+    val asteroids = mutableListOf(Asteroid(), Asteroid(radius = 30F), Asteroid(radius = 40F))
 
     init {
         asteroids.forEachIndexed { index, asteroid ->
