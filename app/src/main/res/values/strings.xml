@@ -5,8 +5,9 @@
     <string name="lives_start">3</string>
     <string name="crash">Crash!</string>
     <string name="game_over">GAME OVER</string>
-    <string name="play_game">PLAY GAME</string>
     <string name="new_high_score">NEW HIGH SCORE!</string>
     <string name="zero">0</string>
     <string name="game_rate_interval">1</string>
+    <string name="welcome_to_asteroids">WELCOME TO ASTEROIDS!</string>
+    <string name="play_game">PLAY GAME</string>
 </resources>

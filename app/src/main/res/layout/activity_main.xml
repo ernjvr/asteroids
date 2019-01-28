@@ -12,7 +12,7 @@
             android:id="@+id/tvWelcomeLabel"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:text="Welcome to Asteroids!"
+            android:text="@string/welcome_to_asteroids"
             android:textStyle="bold" android:textSize="24sp"
             android:textColor="@android:color/holo_orange_light"
             android:layout_marginEnd="8dp"
@@ -21,13 +21,13 @@
             app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStart" android:textAlignment="center"/>
     <Button
-            android:text="PLAY GAME"
-            android:layout_width="wrap_content"
+            android:text="@string/play_game"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnStart" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
-
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/btn_rounded" android:textSize="24sp" android:textStyle="bold"/>
 
 </android.support.constraint.ConstraintLayout>
