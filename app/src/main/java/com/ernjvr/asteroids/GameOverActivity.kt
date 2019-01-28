@@ -26,6 +26,7 @@ class GameOverActivity : AppCompatActivity() {
         tvFinalScore.text = String.format(Integer.toString(score))
 
         val startButton = findViewById<Button>(R.id.btnGameOverStart)
+
         startButton.setOnClickListener {
             val intent = Intent(this, GameActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

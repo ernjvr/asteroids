@@ -18,8 +18,8 @@ import com.ernjvr.asteroids.model.AsteroidFactory
 import com.ernjvr.asteroids.model.SpaceShip
 import kotlin.random.Random
 
-class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : SurfaceView(context, attrs, defStyleAttr), SurfaceHolder.Callback {
+class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : SurfaceView(context, attrs, defStyleAttr), SurfaceHolder.Callback {
 
     val asteroids = AsteroidFactory().asteroids
     private val gameController: GameController
@@ -93,7 +93,8 @@ class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     fun setRandomBackgroundImage() {
         setBackgroundResource(
-            ImageFactory.backgroundImageMap.getValue(Random.nextInt(1, ImageFactory.backgroundImageMap.size))
+            ImageFactory.backgroundImageMap.getValue(
+                Random.nextInt(1, ImageFactory.backgroundImageMap.size + 1))
         )
     }
 

@@ -28,7 +28,7 @@ class GameController(private val activity: GameActivity, private val view: GameV
         view.updateSpaceShip(touchX, touchY, view.radius)
 
         if (!gameValidator.isCollided(touchX, touchY, view.radius)) {
-            handleSuccessfulMove(touchX, touchY)
+            handleSuccessfulMove()
         }
     }
 
@@ -75,7 +75,7 @@ class GameController(private val activity: GameActivity, private val view: GameV
         }
     }
 
-    private fun handleSuccessfulMove(touchX: Float, touchY: Float) {
+    private fun handleSuccessfulMove() {
         score++
         displayScore()
 
