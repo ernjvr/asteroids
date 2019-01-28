@@ -15,19 +15,38 @@ class GameController(private val activity: GameActivity, private val view: GameV
 
     private var lives = 3
     private var score = 0
+    private var explode = false
     private var ambiencePlaying = 0
     private val audioPlayer = AudioPlayer(activity)
     private val gameValidator = GameValidator(view.asteroids)
 
     override fun receiveTouch(event: MotionEvent?) {
         handleAmbience()
+
         val touchX = constrainTouchXToGameSurface(event?.x ?: 0F)
         val touchY = constrainTouchYToGameSurface(event?.y ?: 0F)
+        view.updateSpaceShip(touchX, touchY, view.radius)
 
-        if (gameValidator.isCollided(touchX, touchY, view.radius)) {
-            handleCollision(touchX, touchY)
-        } else {
+        if (!gameValidator.isCollided(touchX, touchY, view.radius)) {
             handleSuccessfulMove(touchX, touchY)
+        }
+    }
+
+    override fun update() {
+        checkCollision(view.spaceShip.x, view.spaceShip.y)
+    }
+
+    private fun checkCollision(x: Float, y: Float) {
+        when {
+            explode -> {
+                view.updateSpaceShip(-100F, -100F, view.radius)
+                explode = false
+            }
+            gameValidator.isCollided(x, y, view.radius) -> {
+                explode = true
+                handleCollision(x, y)
+            }
+            else -> view.updateSpaceShip(x, y, view.radius)
         }
     }
 
@@ -42,8 +61,11 @@ class GameController(private val activity: GameActivity, private val view: GameV
         lives--
         displayLives()
         audioPlayer.playAudio(AudioPlayer.EXPLOSION, 0, 2)
-        view.updateSpaceShip(touchX, touchY, view.radius * 4)
-        Thread.sleep(50)
+
+        if (explode) {
+            view.updateSpaceShip(touchX, touchY, view.radius * 4)
+            Thread.sleep(50)
+        }
         Toast.makeText(activity, activity.getString(R.string.crash), Toast.LENGTH_SHORT).show()
 
         if (lives == 0) {
@@ -56,7 +78,7 @@ class GameController(private val activity: GameActivity, private val view: GameV
     private fun handleSuccessfulMove(touchX: Float, touchY: Float) {
         score++
         displayScore()
-        view.updateSpaceShip(touchX, touchY, view.radius)
+
         if (score % 500 == 0) {
             view.addAsteroid()
         }

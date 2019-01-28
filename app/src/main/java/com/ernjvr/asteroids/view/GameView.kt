@@ -25,7 +25,7 @@ class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private val gameController: GameController
     private val gameThread: GameThread
     var radius = 0F
-    private val spaceShip = SpaceShip(0F, 0F, 0F, Color.WHITE)
+    val spaceShip = SpaceShip(-100F, -100F, 0F, Color.WHITE)
 
     init {
         holder.addCallback(this)
@@ -38,6 +38,7 @@ class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
+        gameController.update()
 
         paint.color = spaceShip.color
         canvas?.drawCircle(spaceShip.x, spaceShip.y, spaceShip.radius, paint)
