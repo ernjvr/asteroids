@@ -10,4 +10,5 @@
     <string name="game_rate_interval">1</string>
     <string name="welcome_to_asteroids">WELCOME TO ASTEROIDS!</string>
     <string name="play_game">PLAY GAME</string>
+    <string name="instructions">Instructions</string>
 </resources>

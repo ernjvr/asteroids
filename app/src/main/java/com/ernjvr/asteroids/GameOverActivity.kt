@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.ernjvr.asteroids.data.dao.HighScoreDAO
 import com.ernjvr.asteroids.data.dao.HighScoreDAOImpl
+import com.ernjvr.asteroids.util.ActivityUtil
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -28,9 +29,7 @@ class GameOverActivity : AppCompatActivity() {
         val startButton = findViewById<Button>(R.id.btnGameOverStart)
 
         startButton.setOnClickListener {
-            val intent = Intent(this, GameActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
+            ActivityUtil.switchTo(this, GameActivity::class.java, listOf(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             finish()
         }
     }
