@@ -5,4 +5,5 @@
           android:paddingTop="8dp"
           android:paddingBottom="8dp"
           android:textSize="24sp"
-          android:autoSizeTextType="uniform"/>
+          android:autoSizeTextType="uniform"
+          android:textColor="@color/lightOrange"/>
