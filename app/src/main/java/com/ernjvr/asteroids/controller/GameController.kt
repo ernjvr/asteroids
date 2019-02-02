@@ -13,7 +13,7 @@ import com.ernjvr.asteroids.valitation.GameValidator
 import com.ernjvr.asteroids.view.GameView
 
 class GameController(private val activity: GameActivity, private val view: GameView, private val game: Game) : ViewController {
-    
+
     private var explode = false
     private var ambiencePlaying = 0
     private val audioPlayer = AudioPlayer(activity)
@@ -29,6 +29,11 @@ class GameController(private val activity: GameActivity, private val view: GameV
         if (!gameValidator.isCollided(touchX, touchY, game.radius)) {
             handleSuccessfulMove()
         }
+    }
+
+    override fun receiveSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
+        game.scaleRadius(width)
+        game.scaleAsteroids()
     }
 
     override fun update() {

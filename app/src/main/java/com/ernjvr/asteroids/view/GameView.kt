@@ -53,8 +53,7 @@ class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        game.scaleRadius(width)
-        game.scaleAsteroids()
+        gameController.receiveSizeChanged(w, h, oldw, oldh)
         super.onSizeChanged(w, h, oldw, oldh)
     }
 
