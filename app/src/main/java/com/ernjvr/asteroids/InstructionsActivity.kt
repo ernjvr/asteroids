@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_instructions.*
 
 class InstructionsActivity : AppCompatActivity() {
 
-    lateinit var adapter: ArrayAdapter<Instruction>
+    private lateinit var adapter: ArrayAdapter<Instruction>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

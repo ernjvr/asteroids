@@ -7,46 +7,45 @@ import android.widget.Toast
 import com.ernjvr.asteroids.GameActivity
 import com.ernjvr.asteroids.GameOverActivity
 import com.ernjvr.asteroids.R
+import com.ernjvr.asteroids.model.Game
 import com.ernjvr.asteroids.sound.AudioPlayer
 import com.ernjvr.asteroids.valitation.GameValidator
 import com.ernjvr.asteroids.view.GameView
 
-class GameController(private val activity: GameActivity, private val view: GameView) : ViewController {
-
-    private var lives = 3
-    private var score = 0
+class GameController(private val activity: GameActivity, private val view: GameView, private val game: Game) : ViewController {
+    
     private var explode = false
     private var ambiencePlaying = 0
     private val audioPlayer = AudioPlayer(activity)
-    private val gameValidator = GameValidator(view.asteroids)
+    private val gameValidator = GameValidator(game.asteroids)
 
     override fun receiveTouch(event: MotionEvent?) {
         handleAmbience()
 
         val touchX = constrainTouchXToGameSurface(event?.x ?: 0F)
         val touchY = constrainTouchYToGameSurface(event?.y ?: 0F)
-        view.updateSpaceShip(touchX, touchY, view.radius)
+        game.updateSpaceShip(touchX, touchY, game.radius)
 
-        if (!gameValidator.isCollided(touchX, touchY, view.radius)) {
+        if (!gameValidator.isCollided(touchX, touchY, game.radius)) {
             handleSuccessfulMove()
         }
     }
 
     override fun update() {
-        checkCollision(view.spaceShip.x, view.spaceShip.y)
+        checkCollision(game.spaceShip.x, game.spaceShip.y)
     }
 
     private fun checkCollision(x: Float, y: Float) {
         when {
             explode -> {
-                view.updateSpaceShip(-100F, -100F, view.radius)
+                game.updateSpaceShip(-100F, -100F, game.radius)
                 explode = false
             }
-            gameValidator.isCollided(x, y, view.radius) -> {
+            gameValidator.isCollided(x, y, game.radius) -> {
                 explode = true
                 handleCollision(x, y)
             }
-            else -> view.updateSpaceShip(x, y, view.radius)
+            else -> game.updateSpaceShip(x, y, game.radius)
         }
     }
 
@@ -58,17 +57,17 @@ class GameController(private val activity: GameActivity, private val view: GameV
     }
 
     private fun handleCollision(touchX: Float, touchY: Float) {
-        lives--
+        game.lives--
         displayLives()
         audioPlayer.playAudio(AudioPlayer.EXPLOSION, 0, 2)
 
         if (explode) {
-            view.updateSpaceShip(touchX, touchY, view.radius * 4)
+            game.updateSpaceShip(touchX, touchY, game.radius * 4)
             Thread.sleep(50)
         }
         Toast.makeText(activity, activity.getString(R.string.crash), Toast.LENGTH_SHORT).show()
 
-        if (lives == 0) {
+        if (game.lives == 0) {
             handleGameOver()
         } else {
             view.setRandomBackgroundImage()
@@ -76,41 +75,41 @@ class GameController(private val activity: GameActivity, private val view: GameV
     }
 
     private fun handleSuccessfulMove() {
-        score++
+        game.score++
         displayScore()
 
-        if (score % 500 == 0) {
-            view.addAsteroid()
+        if (game.score % 500 == 0) {
+            game.addAsteroid()
         }
     }
 
     private fun handleGameOver() {
         val intent = Intent(activity, GameOverActivity::class.java)
         intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP)
-        intent.putExtra(activity.getString(R.string.score), score)
+        intent.putExtra(activity.getString(R.string.score), game.score)
         activity.startActivity(intent)
         activity.finish()
     }
 
     private fun constrainTouchXToGameSurface(touchX: Float): Float {
         var x = touchX
-        if ((x + view.radius) >= view.width.toFloat()) x -= view.radius
-        if ((x - view.radius) <= 0) x += view.radius
+        if ((x + game.radius) >= view.width.toFloat()) x -= game.radius
+        if ((x - game.radius) <= 0) x += game.radius
         return x
     }
 
     private fun constrainTouchYToGameSurface(touchY: Float): Float {
         var y = touchY
-        if (y + view.radius > view.height) y = view.height.toFloat() - view.radius
-        if (y - view.radius < 0) y = view.radius
+        if (y + game.radius > view.height) y = view.height.toFloat() - game.radius
+        if (y - game.radius < 0) y = game.radius
         return y
     }
 
     private fun displayLives() {
-        activity.tvLives.text = String.format(Integer.toString(lives))
+        activity.tvLives.text = String.format(Integer.toString(game.lives))
     }
 
     private fun displayScore() {
-        activity.tvScore.text = String.format(Integer.toString(score))
+        activity.tvScore.text = String.format(Integer.toString(game.score))
     }
 }

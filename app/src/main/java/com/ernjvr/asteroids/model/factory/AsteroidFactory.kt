@@ -1,6 +1,7 @@
-package com.ernjvr.asteroids.model
+package com.ernjvr.asteroids.model.factory
 
 import android.graphics.Color
+import com.ernjvr.asteroids.model.Asteroid
 
 class AsteroidFactory {
 
@@ -9,7 +10,12 @@ class AsteroidFactory {
     private val velocityXs = listOf(10F, 12F, 15F)
     private val velocityYs = listOf(10F, 12F, 15F)
     private val colors = listOf(Color.RED, Color.YELLOW, Color.GREEN)
-    val asteroids = mutableListOf(Asteroid(), Asteroid(), Asteroid())
+
+    val asteroids = mutableListOf(
+        Asteroid(),
+        Asteroid(),
+        Asteroid()
+    )
 
     init {
         asteroids.forEachIndexed { index, asteroid ->

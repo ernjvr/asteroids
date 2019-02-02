@@ -1,5 +1,6 @@
 package com.ernjvr.asteroids.data.service
 
+import com.ernjvr.asteroids.R
 import com.ernjvr.asteroids.model.Instruction
 
 object DataService {
@@ -17,5 +18,18 @@ object DataService {
         Instruction("When all three lives are lost, the game is over. The final score and the 'GAME OVER' message will display."),
         Instruction("If a high score is achieved, a 'NEW HIGH SCORE!' message will also be displayed."),
         Instruction("Press the 'PLAY GAME' button to start another new game.")
+    )
+
+    val backgroundImageMap = mapOf(
+        Pair(1, R.drawable.space1),
+        Pair(2, R.drawable.space2),
+        Pair(3, R.drawable.space3),
+        Pair(4, R.drawable.space4),
+        Pair(5, R.drawable.space5),
+        Pair(6, R.drawable.space6),
+        Pair(7, R.drawable.space7),
+        Pair(8, R.drawable.space8),
+        Pair(9, R.drawable.space9),
+        Pair(10, R.drawable.space10)
     )
 }
