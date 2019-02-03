@@ -57,13 +57,6 @@ class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         super.onSizeChanged(w, h, oldw, oldh)
     }
 
-    fun setRandomBackgroundImage() {
-        setBackgroundResource(
-            DataService.backgroundImageMap.getValue(
-                Random.nextInt(1, DataService.backgroundImageMap.size + 1))
-        )
-    }
-
     override fun surfaceCreated(holder: SurfaceHolder?) {
         gameThread.running = true
         gameThread.start()
@@ -75,6 +68,13 @@ class GameView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
         gameThread.running = false
+    }
+
+    fun setRandomBackgroundImage() {
+        setBackgroundResource(
+            DataService.backgroundImageMap.getValue(
+                Random.nextInt(1, DataService.backgroundImageMap.size + 1))
+        )
     }
 
     companion object {

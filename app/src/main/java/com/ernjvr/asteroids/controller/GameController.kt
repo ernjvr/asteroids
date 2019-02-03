@@ -46,7 +46,7 @@ class GameController(private val activity: GameActivity, private val view: GameV
                 game.updateSpaceShip(-100F, -100F, game.radius)
                 explode = false
             }
-            gameValidator.isCollided(x, y, game.radius) -> {
+            gameValidator.isCollided(x, y, game.spaceShip.radius) -> {
                 explode = true
                 handleCollision(x, y)
             }
