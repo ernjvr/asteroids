@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         val startButton = findViewById<Button>(R.id.btnStart)
 
         startButton.setOnClickListener {
-            ActivityUtil.switchTo(this, GameActivity::class.java)
+            ActivityUtil.switchTo(GameActivity::class.java, this)
         }
     }
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.instructions) {
-            ActivityUtil.switchTo(this, InstructionsActivity::class.java)
+            ActivityUtil.switchTo(InstructionsActivity::class.java, this)
         }
         return true
     }

@@ -7,7 +7,7 @@ class ActivityUtil {
 
     companion object {
 
-        fun switchTo(activity: AppCompatActivity, clazz: Class<*>, flags: List<Int>? = null) {
+        fun switchTo(clazz: Class<*>, activity: AppCompatActivity, flags: List<Int>? = null) {
             val intent = Intent(activity, clazz)
             flags?.forEach {
                 intent.addFlags(it)

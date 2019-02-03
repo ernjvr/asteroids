@@ -29,7 +29,7 @@ class GameOverActivity : AppCompatActivity() {
         val startButton = findViewById<Button>(R.id.btnGameOverStart)
 
         startButton.setOnClickListener {
-            ActivityUtil.switchTo(this, GameActivity::class.java, listOf(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            ActivityUtil.switchTo(GameActivity::class.java, this, listOf(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             finish()
         }
     }
